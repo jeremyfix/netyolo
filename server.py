@@ -31,7 +31,9 @@ def process_image():
     top5 = probs.top5
     top5_conf = probs.top5conf.tolist()
 
-    print(len(names))
+    # with open("classes.txt", "w") as f:
+    #     for id_cls, n in names.items():
+    #         f.write(f"{id_cls}: {n}\n")
 
     # Create a response
     response_data = {
