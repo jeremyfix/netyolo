@@ -9,7 +9,7 @@ from ultralytics import YOLO
 app = Flask(__name__)
 
 # Load a pretrained YOLO11n model
-model = YOLO("yolo11n.pt")
+model = YOLO("yolo11n-cls.pt")
 
 
 @app.route("/process_image", methods=["POST"])
@@ -22,21 +22,28 @@ def process_image():
 
     results = model(image)
 
-    print(results.probs, results.names)
+    # Only get the results for the first image, we have only one
+    results = results[0]
+    probs = results.probs
+    names = results.names
+    top1 = probs.top1
+    top1_conf = probs.top1conf.tolist()
+    top5 = probs.top5
+    top5_conf = probs.top5conf.tolist()
 
-    # Convert processed image to base64 string
-    # buffered = io.BytesIO()
-    # image.save(buffered, format="JPEG")
-    # img_str = base64.b64encode(buffered.getvalue()).decode()
+    print(len(names))
 
     # Create a response
     response_data = {
-        "message": "Image processed successfully",
-        "label": "hello",
+        "top1": names[top1],
+        "top1conf": top1_conf,
+        "top5": [names[i] for i in top5],
+        "top5conf": top5_conf,
+        "names": names,
     }
 
     return jsonify(response_data), 200
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)
