@@ -29,6 +29,8 @@ This will start the server waiting for incoming connections
 From the client side, you can make the server process an image with a curl
 command from the command line such as :
 
+### Classification endpoint
+
 ```bash
 curl -X POST -H "Content-Type: multipart/form-data" -F "image=@/path/to/your/image.jpg"  http://remote_host_ip:5000/classify
 ```
@@ -40,3 +42,15 @@ You then get a json response you can parse with the following keys :
 - top5: class names of the top5
 - top5conf : confidences of the top5
 - names: the names of all the recognized classes
+
+### Detection endpoint
+
+```bash
+curl -X POST -H "Content-Type: multipart/form-data" -F "image=@/path/to/your/image.jpg"  http://remote_host_ip:5000/detect
+```
+
+You then get a json response you can parse with the following keys :
+
+- boxes : the normalized (by the original image sizes) xywh coordinates of the boxes
+- names: the class names of the boxes
+- scores : the confidences of the boxes
