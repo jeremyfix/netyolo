@@ -30,7 +30,7 @@ From the client side, you can make the server process an image with a curl
 command from the command line such as :
 
 ```bash
-curl -X POST -H "Content-Type: multipart/form-data" -F "image=@/path/to/your/image.jpg"  http://remote_host_ip:5000/process_image
+curl -X POST -H "Content-Type: multipart/form-data" -F "image=@/path/to/your/image.jpg"  http://remote_host_ip:5000/classify
 ```
 
 You then get a json response you can parse with the following keys :
